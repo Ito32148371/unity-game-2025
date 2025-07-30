@@ -44,6 +44,15 @@ const games = [
         howToPlay: "Spaceキーで操作",
         thumbnail: "images/racing_thumb.png",
         folder: "games/FlappyCat"
+    },
+    {
+        id: "escapecolorblock",
+        title: "EscapeColorBlock",
+        author: "Dさん",
+        description: "空を飛ぶゲームです",
+        howToPlay: "Spaceキーで操作",
+        thumbnail: "images/racing_thumb.png",
+        folder: "games/EscapeColorBlock"
     }
 ];
 
