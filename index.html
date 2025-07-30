@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ミニゲームギャラリー</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <i class="fas fa-gamepad"></i>
+                    ミニゲームギャラリー
+                </h1>
+                <p class="subtitle">学生制作のUnity作品を楽しもう！</p>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- ランダムプレイボタン -->
+            <section class="random-section">
+                <button class="random-btn" onclick="playRandomGame()">
+                    <i class="fas fa-dice"></i>
+                    <span>ランダムで遊ぶ</span>
+                </button>
+            </section>
+
+            <!-- ゲーム一覧 -->
+            <section class="games-section">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    作品一覧
+                </h2>
+                <div class="games-grid" id="gamesGrid">
+                    <!-- ゲームカードはJavaScriptで生成 -->
+                </div>
+            </section>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <p>&copy; 2024 学生作品ギャラリー - Unity Mini Games Collection</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // ページ読み込み時にゲーム一覧を表示
+        document.addEventListener('DOMContentLoaded', function() {
+            displayGames();
+            
+            // ページフェードイン
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
+
+        // ゲーム一覧を表示
+        function displayGames() {
+            const gamesGrid = document.getElementById('gamesGrid');
+            
+            games.forEach((game, index) => {
+                const gameCard = createGameCard(game, index);
+                gamesGrid.appendChild(gameCard);
+                
+                // カードアニメーション（順次表示）
+                setTimeout(() => {
+                    gameCard.classList.add('show');
+                }, index * 150);
+            });
+        }
+
+        // ゲームカードを作成
+        function createGameCard(game, index) {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            
+            const likes = gameManager.likeManager.getLikes(game.id);
+            const isLiked = gameManager.likeManager.hasUserLiked(game.id);
+            const likedClass = isLiked ? 'liked' : '';
+            
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-thumbnail">
+                        <img src="${game.thumbnail}" alt="${game.title}" 
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjBmMGYwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiPkdhbWUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPg=='" />
+                        <div class="card-overlay">
+                            <button class="play-btn" onclick="gameManager.navigateToGame('${game.id}')">
+                                <i class="fas fa-play"></i>
+                                遊ぶ
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">${game.title}</h3>
+                            <button class="like-btn ${likedClass}" onclick="handleLike('${game.id}')">
+                                <i class="heart-icon">♥</i>
+                                <span class="like-count">${likes}</span>
+                            </button>
+                        </div>
+                        
+                        ${game.author ? `<p class="card-author"><i class="fas fa-user"></i> ${game.author}</p>` : ''}
+                        
+                        <p class="card-description">${game.description}</p>
+                        
+                        <div class="card-actions">
+                            <button class="action-btn primary" onclick="gameManager.navigateToGame('${game.id}')">
+                                <i class="fas fa-gamepad"></i>
+                                プレイする
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // ランダムゲームをプレイ
+        function playRandomGame() {
+            const randomGame = gameManager.getRandomGame();
+            gameManager.navigateToGame(randomGame.id, true);
+        }
+
+        // カードホバー効果
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.closest('.game-card')) {
+                const card = e.target.closest('.game-card');
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            }
+        });
+
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.closest('.game-card')) {
+                const card = e.target.closest('.game-card');
+                card.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    </script>
+</body>
+</html>

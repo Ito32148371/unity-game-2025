@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スピードレーサー - テスト画面</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+        }
+        .game-area {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .race-track {
+            width: 200px;
+            height: 100px;
+            border: 3px solid white;
+            border-radius: 50px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .car {
+            position: absolute;
+            font-size: 2rem;
+            animation: race 3s infinite linear;
+        }
+        @keyframes race {
+            0% { 
+                top: 50%;
+                left: -20px;
+                transform: translateY(-50%) rotate(0deg);
+            }
+            25% {
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%) rotate(90deg);
+            }
+            50% {
+                top: 50%;
+                left: calc(100% + 20px);
+                transform: translateY(-50%) rotate(180deg);
+            }
+            75% {
+                top: calc(100% - 10px);
+                left: 50%;
+                transform: translateX(-50%) rotate(270deg);
+            }
+            100% {
+                top: 50%;
+                left: -20px;
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+        .controls {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-area">
+        <h1>🏎️ スピードレーサー</h1>
+        <div class="race-track">
+            <div class="car">🏎️</div>
+        </div>
+        <p>これはUnity WebGLゲームのテスト画面です</p>
+        <div class="controls">
+            <h3>操作方法</h3>
+            <p>WASD または 矢印キー: 操作</p>
+            <p>スペースキー: ブレーキ</p>
+        </div>
+        <p style="margin-top: 20px; opacity: 0.8;">実際のUnityゲームをここに配置してください</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲームプレイ - ミニゲームギャラリー</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="game-page">
+    <div class="game-container">
+        <!-- ヘッダー -->
+        <header class="game-header">
+            <div class="header-content">
+                <button class="back-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    戻る
+                </button>
+                <h1 class="game-title" id="gameTitle">ゲーム読み込み中...</h1>
+                <div class="header-actions">
+                    <button class="random-btn small" onclick="playRandomGame()">
+                        <i class="fas fa-dice"></i>
+                        ランダム
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- メインゲームエリア -->
+        <main class="game-main">
+            <div class="game-content">
+                <!-- ゲーム表示エリア -->
+                <div class="game-area">
+                    <div class="game-frame">
+                        <div class="loading-screen" id="loadingScreen">
+                            <div class="loading-spinner">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <p>ゲームを読み込み中...</p>
+                        </div>
+                        <iframe id="gameFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- ゲーム情報パネル -->
+                <aside class="game-info">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h2 id="infoTitle">ゲーム情報</h2>
+                            <div class="like-section">
+                                <div id="likeButton">
+                                    <!-- いいねボタンはJavaScriptで生成 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-content">
+                            <div class="info-section">
+                                <h3><i class="fas fa-info-circle"></i> ゲーム概要</h3>
+                                <p id="gameDescription">読み込み中...</p>
+                            </div>
+
+                            <div class="info-section">
+                                <h3><i class="fas fa-keyboard"></i> 操作方法</h3>
+                                <p id="gameControls">読み込み中...</p>
+                            </div>
+
+                            <div class="info-section author-section" id="authorSection" style="display: none;">
+                                <h3><i class="fas fa-user"></i> 制作者</h3>
+                                <p id="gameAuthor"></p>
+                            </div>
+                        </div>
+
+                        <div class="info-actions">
+                            <button class="action-btn secondary" onclick="navigateToNext()">
+                                <i class="fas fa-forward"></i>
+                                <span id="nextBtnText">次の作品へ</span>
+                            </button>
+                            <button class="action-btn primary" onclick="playRandomGame()">
+                                <i class="fas fa-dice"></i>
+                                ランダムで遊ぶ
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="game-footer">
+            <p>&copy; 2024 学生作品ギャラリー</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentGame = null;
+
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            gameManager.parseUrlParams();
+            
+            if (gameManager.currentGameId) {
+                currentGame = gameManager.getGameById(gameManager.currentGameId);
+                if (currentGame) {
+                    loadGame(currentGame);
+                } else {
+                    showError('ゲームが見つかりませんでした。');
+                }
+            } else {
+                showError('ゲームIDが指定されていません。');
+            }
+
+            // ページフェードイン
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
+
+        // ゲームを読み込み
+        function loadGame(game) {
+            // タイトル設定
+            document.getElementById('gameTitle').textContent = game.title;
+            document.getElementById('infoTitle').textContent = game.title;
+            document.title = `${game.title} - ミニゲームギャラリー`;
+
+            // ゲーム情報設定
+            document.getElementById('gameDescription').textContent = game.description;
+            document.getElementById('gameControls').textContent = game.howToPlay;
+            
+            if (game.author) {
+                document.getElementById('gameAuthor').textContent = game.author;
+                document.getElementById('authorSection').style.display = 'block';
+            }
+
+            // いいねボタン設定
+            const likeButton = document.getElementById('likeButton');
+            likeButton.innerHTML = gameManager.generateLikeButton(game.id);
+
+            // 次のボタンテキスト設定
+            const nextBtnText = document.getElementById('nextBtnText');
+            if (gameManager.isRandomMode) {
+                nextBtnText.textContent = 'ランダムで次へ';
+            } else {
+                nextBtnText.textContent = '次の作品へ';
+            }
+
+            // ゲーム読み込み
+            loadGameFrame(game);
+        }
+
+        // ゲームフレームを読み込み
+        function loadGameFrame(game) {
+            const gameFrame = document.getElementById('gameFrame');
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            // ゲームパスを設定
+            const gamePath = `${game.folder}/index.html`;
+            
+            // 読み込み完了時の処理
+            gameFrame.onload = function() {
+                setTimeout(() => {
+                    fadeOut(loadingScreen, 300);
+                    gameFrame.style.opacity = '1';
+                }, 500);
+            };
+
+            // エラー処理
+            gameFrame.onerror = function() {
+                showError('ゲームの読み込みに失敗しました。');
+            };
+
+            // iframeのsrcを設定
+            gameFrame.src = gamePath;
+        }
+
+        // エラー表示
+        function showError(message) {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${message}</p>
+                    <button class="action-btn primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-home"></i>
+                        トップに戻る
+                    </button>
+                </div>
+            `;
+        }
+
+        // 次のゲームに遷移
+        function navigateToNext() {
+            if (!currentGame) return;
+
+            let nextGame;
+            if (gameManager.isRandomMode) {
+                nextGame = gameManager.getRandomGame(currentGame.id);
+                gameManager.navigateToGame(nextGame.id, true);
+            } else {
+                nextGame = gameManager.getNextGame(currentGame.id);
+                gameManager.navigateToGame(nextGame.id, false);
+            }
+        }
+
+        // ランダムゲームをプレイ
+        function playRandomGame() {
+            const randomGame = gameManager.getRandomGame(currentGame?.id);
+            gameManager.navigateToGame(randomGame.id, true);
+        }
+
+        // ウィンドウリサイズ時のゲームフレーム調整
+        window.addEventListener('resize', function() {
+            const gameFrame = document.getElementById('gameFrame');
+            if (gameFrame) {
+                // ゲームフレームのサイズを調整（必要に応じて）
+            }
+        });
+
+        // キーボードショートカット
+        document.addEventListener('keydown', function(e) {
+            // Escキーでトップに戻る
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            }
+            // Rキーでランダムゲーム
+            else if (e.key.toLowerCase() === 'r') {
+                playRandomGame();
+            }
+            // Nキーで次のゲーム
+            else if (e.key.toLowerCase() === 'n') {
+                navigateToNext();
+            }
+        });
+    </script>
+</body>
+</html>

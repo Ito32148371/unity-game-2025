@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ネコジャンプ - テスト画面</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+        }
+        .game-area {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .cat {
+            font-size: 4rem;
+            animation: jump 1s infinite alternate;
+        }
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        .controls {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-area">
+        <h1>🐱 ネコジャンプ</h1>
+        <div class="cat">🐱</div>
+        <p>これはUnity WebGLゲームのテスト画面です</p>
+        <div class="controls">
+            <h3>操作方法</h3>
+            <p>スペースキー: ジャンプ</p>
+            <p>左右キー: 移動</p>
+        </div>
+        <p style="margin-top: 20px; opacity: 0.8;">実際のUnityゲームをここに配置してください</p>
+    </div>
+</body>
+</html>
