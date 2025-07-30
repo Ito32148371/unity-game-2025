@@ -43,7 +43,7 @@ const games = [
         description: "空を飛ぶゲームです",
         howToPlay: "Spaceキーで操作",
         thumbnail: "images/racing_thumb.png",
-        folder: "games/racing"
+        folder: "games/FlappyCat"
     }
 ];
 
