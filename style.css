@@ -429,13 +429,14 @@ body.loaded {
 }
 
 .game-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 960px 350px;
     gap: 30px;
     height: calc(100vh - 160px);
+    justify-content: center;
 }
 
 .game-area {
@@ -592,12 +593,13 @@ body.loaded {
 /* ========================================
    レスポンシブデザイン
 ======================================== */
-@media (max-width: 968px) {
+@media (max-width: 1360px) {
     .game-content {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
         height: auto;
         gap: 20px;
+        justify-content: stretch;
     }
     
     .game-area {

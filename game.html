@@ -66,11 +66,7 @@
                                 <p id="gameControls">読み込み中...</p>
                             </div>
 
-                            <div class="info-section author-section" id="authorSection" style="display: none;">
-                                <h3><i class="fas fa-user"></i> 制作者</h3>
-                                <p id="gameAuthor"></p>
-                            </div>
-                        </div>
+                                        </div>
 
                         <div class="info-actions">
                             <button class="action-btn secondary" onclick="navigateToNext()">
@@ -129,10 +125,6 @@
             document.getElementById('gameDescription').textContent = game.description;
             document.getElementById('gameControls').textContent = game.howToPlay;
             
-            if (game.author) {
-                document.getElementById('gameAuthor').textContent = game.author;
-                document.getElementById('authorSection').style.display = 'block';
-            }
 
             // いいねボタン設定
             const likeButton = document.getElementById('likeButton');
