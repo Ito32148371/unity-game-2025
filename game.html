@@ -163,6 +163,8 @@
                 setTimeout(() => {
                     fadeOut(loadingScreen, 300);
                     gameFrame.style.opacity = '1';
+                    // ゲーム読み込み完了後にiframeにフォーカスを設定
+                    gameFrame.focus();
                 }, 500);
             };
 
