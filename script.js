@@ -35,6 +35,15 @@ const games = [
         howToPlay: "WASDキーまたは矢印キーで操作",
         thumbnail: "images/racing_thumb.png",
         folder: "games/racing"
+    },
+    {
+        id: "flappycat",
+        title: "FlappyCat",
+        author: "Dさん",
+        description: "空を飛ぶゲームです",
+        howToPlay: "Spaceキーで操作",
+        thumbnail: "images/racing_thumb.png",
+        folder: "games/racing"
     }
 ];
 
