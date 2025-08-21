@@ -1,42 +1,6 @@
 // ゲームデータ配列
 const games = [
     {
-        id: "neko",
-        title: "ネコジャンプ",
-        author: "Aさん",
-        description: "ネコがジャンプしてコインを集めるゲームです。高得点を目指して頑張りましょう！",
-        howToPlay: "スペースキーでジャンプ、左右キーで移動",
-        thumbnail: "images/neko_thumb.png",
-        folder: "games/neko"
-    },
-    {
-        id: "space",
-        title: "スペースシューター",
-        author: "Bさん",
-        description: "宇宙船を操作して敵を倒すシューティングゲームです。",
-        howToPlay: "矢印キーで移動、スペースキーで攻撃",
-        thumbnail: "images/space_thumb.png",
-        folder: "games/space"
-    },
-    {
-        id: "puzzle",
-        title: "パズルマスター",
-        author: "Cさん",
-        description: "ブロックを組み合わせてラインを消すパズルゲームです。",
-        howToPlay: "マウスクリックでブロックを操作",
-        thumbnail: "images/puzzle_thumb.png",
-        folder: "games/puzzle"
-    },
-    {
-        id: "racing",
-        title: "スピードレーサー",
-        author: "Dさん",
-        description: "車を運転してコースを駆け抜けるレーシングゲームです。",
-        howToPlay: "WASDキーまたは矢印キーで操作",
-        thumbnail: "images/racing_thumb.png",
-        folder: "games/racing"
-    },
-    {
         id: "flappycat",
         title: "FlappyCat",
         author: "Dさん",
@@ -53,6 +17,15 @@ const games = [
         howToPlay: "Spaceキーで操作",
         thumbnail: "images/racing_thumb.png",
         folder: "games/EscapeColorBlock"
+    },
+    {
+        id: "birdfly",
+        title: "Birdfly",
+        author: "Birdflyさん",
+        description: "空を飛ぶゲームです",
+        howToPlay: "Spaceキーで操作",
+        thumbnail: "images/racing_thumb.png",
+        folder: "games/Birdfly"
     }
 ];
 
